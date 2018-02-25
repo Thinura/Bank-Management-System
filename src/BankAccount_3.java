@@ -1,3 +1,4 @@
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 public class BankAccount_3 {
@@ -175,10 +176,11 @@ public class BankAccount_3 {
         System.out.println("[1] : CREATE AN BANK ACCOUNT");
         System.out.println("[2] : CHECK THE BALANCE");
         System.out.println("[3] : TO MAKE A TRANSACTION");
-        System.out.println("[4] : TO CHECK THE BALANCE FORECAST TABLE.");
-        System.out.println("[5] : TO WITHDRAW");
-        System.out.println("[6] : TO DEPOSIT");
-        System.out.println("[7] : TO LOGOUT");
+        System.out.println("[4] : TO CHECK THE BALANCE FORECAST TABLE.(ONLY WITH INTEREST RATE)");
+        System.out.println("[5] : TO CHECK THE BALANCE FORECAST TABLE.");
+        System.out.println("[6] : TO WITHDRAW");
+        System.out.println("[7] : TO DEPOSIT");
+        System.out.println("[8] : TO LOGOUT");
         System.out.println("[0] : EXIT");
         System.out.print("\nENTER THE SELECTION: ");
         int selection = checkSelectionMenu();
@@ -201,18 +203,22 @@ public class BankAccount_3 {
                 break;
             }
             case 4: {
-                CustomerAccount.forecastTable();
+                CustomerAccount.forecastTableInt();
                 break;
             }
             case 5: {
-                CustomerAccount.withdrawMoney();
+                CustomerAccount.forecastTable();
                 break;
             }
             case 6: {
-                CustomerAccount.depositMoney();
+                CustomerAccount.withdrawMoney();
                 break;
             }
             case 7: {
+                CustomerAccount.depositMoney();
+                break;
+            }
+            case 8: {
                 System.out.println("\n--------------------------------------");
                 System.out.println("THANK YOU FOR USING OUR APPLICATION.");
                 printLoginMenu();
@@ -239,9 +245,13 @@ class CustomerAccount {
     public double withdrawCase;
     public double depositCase;
 
+
     private static CustomerAccount customerAccount;
     private static List<CustomerAccount> customerAccountList = new ArrayList<>();
-    public static List<CustomerAccount> currentAccount = new ArrayList<>();
+    private static GregorianCalendar gregorianCalendar = new GregorianCalendar();
+
+    private static String yyyy = "yyyy";
+    private static SimpleDateFormat dateFormat = new SimpleDateFormat(yyyy);
 
     private static Scanner scanner = new Scanner(System.in);
 
@@ -312,7 +322,7 @@ class CustomerAccount {
                                         " TYPE[YES] OR TYPE[NO] TO GO TO THE MENU ");
                                 check = scanner.next();
                             } else {
-                                System.out.println("\nAMOUNT OF THE AUTOMATIC DEPOSIT CAN'T BE MORE THAN $100,000 " +
+                                System.out.println("\nAMOUNT OF THE AUTOMATIC DEPOSIT CAN'T BE MORE THAN $100,000" +
                                         "\nCAN'T EXCEED THE FEDERAL INSURANCE.\nTRY AGAIN\n");
                                 BankAccount_3.printCustomerMenu();
                             }
@@ -334,7 +344,7 @@ class CustomerAccount {
             BankAccount_3.printCustomerMenu();
         } catch (InputMismatchException ex) {
             System.out.println("\nUSE ONLY NUMBERS TO ENTER.TRY AGAIN");
-            BankAccount_3.printCustomerMenu();
+
         }
     }
 
@@ -427,38 +437,62 @@ class CustomerAccount {
         }
     }
 
-    public static void forecastTable() {
+    public static void forecastTableInt() throws InputMismatchException {
         try {
             System.out.print("\nENTER YOUR ACCOUNT NUMBER: ");
             int bankNum = scanner.nextInt();
             CustomerAccount customerAccount = CustomerAccount.searchCustomerAccount(bankNum);
             if (customerAccount != null) {
-                System.out.println("+-----------------------------------------------------------------------+");
-                System.out.println("|                   |");
-                System.out.println("||");
-                System.out.println("||");
-                System.out.println("||");
-                System.out.println("||");
-                System.out.println("||");
-                System.out.println("||");
-                System.out.println("||");
-                System.out.println("||");
-                System.out.println("||");
-                System.out.println("||");
-                System.out.println("||");
-                System.out.println("||");
-                System.out.println("||");
-                System.out.println("||");
-                System.out.println("||");
-                System.out.println("||");
-                System.out.println("||");
-                System.out.println("||");
-                System.out.println("||");
-                System.out.println("||");
-                System.out.println("||");
-                System.out.println("+-------------------------------------------------------------------------+");
+                System.out.println(customerAccount.getAccRate());
+                System.out.println((customerAccount.getAccBal() * (((customerAccount.getAccRate()) / 100) / 12)));
+                double firstMonthEndingBalance = Math.round(customerAccount.getAccBal() + (customerAccount.getAccBal() * ((customerAccount.getAccRate() / 100) / 12)));
+                double secondMothEndingBalance = Math.round(firstMonthEndingBalance + firstMonthEndingBalance * ((customerAccount.getAccRate() / 100) / 12));
+                double thirdMothEndingBalance = Math.round(secondMothEndingBalance + secondMothEndingBalance * ((customerAccount.getAccRate() / 100) / 12));
+                double fourthMothEndingBalance = Math.round(thirdMothEndingBalance + thirdMothEndingBalance * ((customerAccount.getAccRate() / 100) / 12));
+                double fifthMothEndingBalance = Math.round(fourthMothEndingBalance + fourthMothEndingBalance * ((customerAccount.getAccRate() / 100) / 12));
+                double sixthMothEndingBalance = Math.round(fifthMothEndingBalance + fifthMothEndingBalance * ((customerAccount.getAccRate() / 100) / 12));
+                double seventhMothEndingBalance = Math.round(sixthMothEndingBalance + sixthMothEndingBalance * ((customerAccount.getAccRate() / 100) / 12));
+                double eighthMothEndingBalance = Math.round(seventhMothEndingBalance + seventhMothEndingBalance * ((customerAccount.getAccRate() / 100) / 12));
+                double ninthMothEndingBalance = Math.round(eighthMothEndingBalance + eighthMothEndingBalance * ((customerAccount.getAccRate() / 100) / 12));
+                double tenthMothEndingBalance = Math.round(ninthMothEndingBalance + ninthMothEndingBalance * ((customerAccount.getAccRate() / 100) / 12));
+                double eleventhMothEndingBalance = Math.round(tenthMothEndingBalance + tenthMothEndingBalance * ((customerAccount.getAccRate() / 100) / 12));
+                double twelfthMothEndingBalance = Math.round(eleventhMothEndingBalance + eleventhMothEndingBalance * ((customerAccount.getAccRate() / 100) / 12));
 
 
+                System.out.println("current year: " + gregorianCalendar.get(Calendar.YEAR));
+                System.out.println("+--------------------------------------------------------------+");
+                System.out.println("|                                                              |");
+                System.out.println("|                     INTERBANK PYT LTD                        |");
+                System.out.println("|                                                              |");
+                System.out.println("+--------------------------------------------------------------+");
+                System.out.println("| YEAR | MONTH | MONTH-STARTING BALANCE | MONTH-ENDING BALANCE |");
+                System.out.println("+--------------------------------------------------------------+");
+                System.out.println("| " + gregorianCalendar.get(Calendar.YEAR) + " |   " + gregorianCalendar.get(Calendar.MONTH) + "   |        " + customerAccount.getAccBal() + "          |        " + firstMonthEndingBalance + "        |");
+                gregorianCalendar.add(Calendar.MONTH, 1);
+                System.out.println("| " + gregorianCalendar.get(Calendar.YEAR) + " |   " + gregorianCalendar.get(Calendar.MONTH) + "   |        " + firstMonthEndingBalance + "          |        " + secondMothEndingBalance + "        |");
+                gregorianCalendar.add(Calendar.MONTH, 1);
+                System.out.println("| " + gregorianCalendar.get(Calendar.YEAR) + " |   " + gregorianCalendar.get(Calendar.MONTH) + "   |        " + secondMothEndingBalance + "          |        " + thirdMothEndingBalance + "        |");
+                gregorianCalendar.add(Calendar.MONTH, 1);
+                System.out.println("| " + gregorianCalendar.get(Calendar.YEAR) + " |   " + gregorianCalendar.get(Calendar.MONTH) + "   |        " + thirdMothEndingBalance + "          |        " + fourthMothEndingBalance + "        |");
+                gregorianCalendar.add(Calendar.MONTH, 1);
+                System.out.println("| " + gregorianCalendar.get(Calendar.YEAR) + " |   " + gregorianCalendar.get(Calendar.MONTH) + "   |        " + fourthMothEndingBalance + "          |        " + fifthMothEndingBalance + "        |");
+                gregorianCalendar.add(Calendar.MONTH, 1);
+                System.out.println("| " + gregorianCalendar.get(Calendar.YEAR) + " |   " + gregorianCalendar.get(Calendar.MONTH) + "   |        " + fifthMothEndingBalance + "          |        " + sixthMothEndingBalance + "        |");
+                gregorianCalendar.add(Calendar.MONTH, 1);
+                System.out.println("| " + gregorianCalendar.get(Calendar.YEAR) + " |   " + gregorianCalendar.get(Calendar.MONTH) + "   |        " + sixthMothEndingBalance + "          |        " + seventhMothEndingBalance + "        |");
+                gregorianCalendar.add(Calendar.MONTH, 1);
+                System.out.println("| " + gregorianCalendar.get(Calendar.YEAR) + " |   " + gregorianCalendar.get(Calendar.MONTH) + "   |        " + seventhMothEndingBalance + "          |        " + eighthMothEndingBalance + "        |");
+                gregorianCalendar.add(Calendar.MONTH, 1);
+                System.out.println("| " + gregorianCalendar.get(Calendar.YEAR) + " |   " + gregorianCalendar.get(Calendar.MONTH) + "   |        " + eighthMothEndingBalance + "          |        " + ninthMothEndingBalance + "        |");
+                gregorianCalendar.add(Calendar.MONTH, 1);
+                System.out.println("| " + gregorianCalendar.get(Calendar.YEAR) + " |   " + gregorianCalendar.get(Calendar.MONTH) + "  |        " + ninthMothEndingBalance + "          |        " + tenthMothEndingBalance + "        |");
+                gregorianCalendar.add(Calendar.MONTH, 1);
+                System.out.println("| " + gregorianCalendar.get(Calendar.YEAR) + " |   " + gregorianCalendar.get(Calendar.MONTH) + "  |        " + tenthMothEndingBalance + "          |        " + eleventhMothEndingBalance + "        |");
+                gregorianCalendar.add(Calendar.MONTH, 1);
+                System.out.println("| " + gregorianCalendar.get(Calendar.YEAR) + " |   " + gregorianCalendar.get(Calendar.MONTH) + "   |        " + eleventhMothEndingBalance + "          |        " + twelfthMothEndingBalance + "        |");
+                System.out.println("+--------------------------------------------------------------+");
+                System.out.println("THIS FORECASTING TABLE IS FOR INTEREST RATES ONLY");
+                BankAccount_3.printCustomerMenu();
 
             } else {
                 System.out.println("\nINVALID ACCOUNT NUMBER/ HAVEN'T CRATE AN BANK ACCOUNT,TRY AGAIN");
@@ -466,7 +500,7 @@ class CustomerAccount {
             }
         } catch (InputMismatchException ex) {
             System.out.println("\nUSE ONLY NUMBERS TO ENTER,TRY AGAIN.");
-            BankAccount_3.printCustomerMenu();
+
         }
     }
 
@@ -550,6 +584,70 @@ class CustomerAccount {
         } catch (InputMismatchException ex) {
             System.out.println("\nUSE ONLY NUMBERS TO ENTER,TRY AGAIN.");
             BankAccount_3.printCustomerMenu();
+        }
+    }
+
+    public static void forecastTable() {
+        try {
+            System.out.print("\nENTER YOUR ACCOUNT NUMBER: ");
+            int bankNum = scanner.nextInt();
+            CustomerAccount customerAccount = CustomerAccount.searchCustomerAccount(bankNum);
+            if (customerAccount != null) {
+                System.out.print("\nENTER THE AMOUNT YOU WISH TO SPEND ON A MONTH: $");
+                double tempWithdrawal = scanner.nextDouble();
+                System.out.print("\nENTER YOUR DESIRED RETURN AMOUNT FOR A MONTH: $");
+                double tempDeposit = scanner.nextDouble();
+                if (!((tempWithdrawal <= 0) && (tempDeposit <= 0))) {
+                    if (!(tempDeposit <= tempWithdrawal)) {
+                        if (!(tempDeposit >= 100000)) {
+                            System.out.print("\nENTER THE YEAR/S THAT YOU EXPECTED FROM THE FORECAST TABLE: ");
+                            int year = scanner.nextInt();
+                            System.out.println("+--------------------------------------------------------------+");
+                            System.out.println("|                                                              |");
+                            System.out.println("|                     INTERBANK PYT LTD                        |");
+                            System.out.println("|                                                              |");
+                            System.out.println("+--------------------------------------------------------------+");
+                            System.out.println("| YEAR | MONTH | MONTH-STARTING BALANCE | MONTH-ENDING BALANCE |");
+                            double monthStartingBal = customerAccount.getAccBal();
+                            int year1;
+                            int year2 = 0;
+                            year1 = Integer.parseInt(dateFormat.format(new Date()));
+                            for (int i = 0; i < (year); i++) {
+                                year1 = year2 + year1;
+                                System.out.println("+--------------------------------------------------------------+");
+                                year2 = year1 + 1;
+                                for (int j = 1; j < (year + 10); j++) {
+                                    System.out.print("| " + year1);
+                                    System.out.print("     " + j + "  ");
+                                    double monthEndingBal = Math.round(monthStartingBal + (tempDeposit - tempWithdrawal) + (monthStartingBal * ((customerAccount.getAccRate() / 100) / 12)));
+                                    System.out.print("\t\t\t " + monthStartingBal + "\t    ");
+                                    System.out.print("\t\t\t  " + monthEndingBal + "\t  ");
+                                    System.out.println("");
+                                    monthStartingBal = monthEndingBal;
+                                }
+                                year1 = 0;
+                            }
+                            System.out.println("+--------------------------------------------------------------+");
+                            BankAccount_3.printCustomerMenu();
+                        } else {
+                            System.out.println("\nAMOUNT OF THE AUTOMATIC DEPOSIT CAN'T BE MORE THAN $100,000." +
+                                    "\nCAN'T EXCEED THE FEDERAL INSURANCE.\nTRY AGAIN\n");
+                            BankAccount_3.printCustomerMenu();
+                        }
+                    } else {
+                        System.out.println("YOUR MONTHLY DEPOSIT MUST BE OVER MONTHLY WITHDRAWAL,TRY AGAIN");
+                        forecastTable();
+                    }
+                } else {
+                    System.out.println("AMOUNT CAN'T BE NEGATIVE.TRY AGAIN");
+                    forecastTable();
+                }
+            } else {
+                System.out.println("\nINVALID ACCOUNT NUMBER/ HAVEN'T CRATE AN BANK ACCOUNT,TRY AGAIN");
+                BankAccount_3.printCustomerMenu();
+            }
+        } catch (InputMismatchException ex) {
+            System.out.println("\nUSE ONLY NUMBERS TO ENTER,TRY AGAIN.\n");
         }
     }
 }
